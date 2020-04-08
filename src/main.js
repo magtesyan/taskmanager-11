@@ -4,8 +4,11 @@ import {createTaskTemplate} from "./components/task.js";
 import {createTaskEditTemplate} from "./components/task-edit.js";
 import {createLoadMoreButtonTemplate} from "./components/load-more-button.js";
 import {createBoardTemplate} from "./components/board.js";
+import {generateTasks} from "./mock/task.js";
 
-const TASK_COUNT = 3;
+const TASK_COUNT = 14;
+
+const tasks = generateTasks(TASK_COUNT);
 
 const render = (container, template, place = `beforeend`) => {
   container.insertAdjacentHTML(place, template);
@@ -23,8 +26,9 @@ const boardElement = siteMainElement.querySelector(`.board`);
 
 render(taskListElement, createTaskEditTemplate());
 
-for (let i = 0; i < TASK_COUNT; i++) {
-  render(taskListElement, createTaskTemplate());
-}
+tasks.slice().forEach((task) => {
+  render(taskListElement, createTaskTemplate(task));
+});
+console.log(tasks);
 
 render(boardElement, createLoadMoreButtonTemplate());
