@@ -1,4 +1,4 @@
-import {WEEKDAYS_COUNT} from "./const.js";
+import {WEEKDAYS_COUNT, MONTH_NAMES} from "./const.js";
 
 const getRandomIntegerNumber = (min, max) => {
   return min + Math.floor(Math.random() * (max - min + 1));
@@ -16,7 +16,6 @@ const getRandomDate = () => {
   const diffValue = sign * getRandomIntegerNumber(0, WEEKDAYS_COUNT);
   targetDate.setDate(targetDate.getDate() + diffValue);
 
-
   return targetDate;
 };
 
@@ -31,4 +30,20 @@ const formatTime = (date) => {
   return `${hours}:${minutes}`;
 };
 
-export {getRandomArrayItem, getRandomDate, formatTime};
+const calcTaskDetails = (task) => {
+  const {dueDate, repeatingDays, description, color, isArchive, isFavorite} = task;
+
+  const isExpired = dueDate instanceof Date && dueDate < Date.now();
+  const isDateShowing = !!dueDate;
+
+  const date = isDateShowing ? `${dueDate.getDate()} ${MONTH_NAMES[dueDate.getMonth()]}` : ``;
+  const time = isDateShowing ? formatTime(dueDate) : ``;
+
+  const isRepeatingTask = Object.values(repeatingDays).some(Boolean);
+  const repeatClass = isRepeatingTask ? `card--repeat` : ``;
+  const deadlineClass = isExpired ? `card--deadline` : ``;
+
+  return {date, time, repeatClass, deadlineClass, isDateShowing, isRepeatingTask, description, color, isArchive, isFavorite, repeatingDays};
+};
+
+export {getRandomArrayItem, getRandomDate, formatTime, calcTaskDetails};
