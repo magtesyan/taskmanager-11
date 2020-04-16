@@ -1,5 +1,5 @@
 import {COLORS, DAYS} from "../const.js";
-import {calcTaskDetails} from "../util.js";
+import {calcTaskDetails, createElement} from "../util.js";
 
 const createColorsMarkup = (colors, currentColor) => {
   return colors
@@ -124,4 +124,28 @@ const createTaskEditTemplate = (task) => {
   );
 };
 
-export {createTaskEditTemplate};
+class TaskEdit {
+  constructor(task) {
+    this._task = task;
+    this._element = null;
+  }
+
+  getTemplate() {
+    return createTaskEditTemplate(this._task);
+  }
+
+  getElement() {
+    if (!this._element) {
+      this._element = createElement(this.getTemplate());
+    }
+
+    return this._element;
+  }
+
+  removeElement() {
+    this._element = null;
+  }
+}
+
+
+export default TaskEdit;
