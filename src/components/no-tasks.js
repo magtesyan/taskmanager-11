@@ -1,5 +1,6 @@
 import {createElement} from "../util.js";
 
+// -- delete this comment in the next task
 const createNoTasksTemplate = () => {
   return (
     `<p class="board__no-tasks">
