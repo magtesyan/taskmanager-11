@@ -1,4 +1,4 @@
-import {getRandomArrayItem, getRandomDate} from "../util.js";
+import {getRandomArrayItem, getRandomDate} from "../utils/common.js";
 import {COLORS} from "../const.js";
 
 const DescriptionItems = [

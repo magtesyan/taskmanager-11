@@ -1,5 +1,5 @@
 import {COLORS, DAYS} from "../const.js";
-import {calcTaskDetails} from "../util.js";
+import {calcTaskDetails} from "../utils/common.js";
 import AbstractComponent from "./abstract-component.js";
 
 const createColorsMarkup = (colors, currentColor) => {

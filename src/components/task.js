@@ -1,4 +1,4 @@
-import {calcTaskDetails} from "../util.js";
+import {calcTaskDetails} from "../utils/common.js";
 import AbstractComponent from "./abstract-component.js";
 
 const createTaskTemplate = (task) => {

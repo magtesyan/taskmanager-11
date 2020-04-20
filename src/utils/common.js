@@ -1,9 +1,4 @@
-import {WEEKDAYS_COUNT, MONTH_NAMES} from "./const.js";
-
-const RenderPosition = {
-  AFTERBEGIN: `afterbegin`,
-  BEFOREEND: `beforeend`
-};
+import {WEEKDAYS_COUNT, MONTH_NAMES} from "../const.js";
 
 const getRandomIntegerNumber = (min, max) => {
   return min + Math.floor(Math.random() * (max - min + 1));
@@ -35,17 +30,6 @@ const formatTime = (date) => {
   return `${hours}:${minutes}`;
 };
 
-const render = (container, element, place) => {
-  switch (place) {
-    case RenderPosition.AFTERBEGIN:
-      container.prepend(element);
-      break;
-    case RenderPosition.BEFOREEND:
-      container.append(element);
-      break;
-  }
-};
-
 const calcTaskDetails = (task) => {
   const {dueDate, repeatingDays, description, color, isArchive, isFavorite} = task;
 
@@ -62,11 +46,4 @@ const calcTaskDetails = (task) => {
   return {date, time, repeatClass, deadlineClass, isDateShowing, isRepeatingTask, description, color, isArchive, isFavorite, repeatingDays};
 };
 
-const createElement = (template) => {
-  const newElement = document.createElement(`div`);
-  newElement.innerHTML = template;
-
-  return newElement.firstChild;
-};
-
-export {getRandomArrayItem, getRandomDate, formatTime, calcTaskDetails, createElement, RenderPosition, render};
+export {getRandomArrayItem, getRandomDate, formatTime, calcTaskDetails};
