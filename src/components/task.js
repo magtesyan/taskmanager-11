@@ -1,29 +1,34 @@
 import {calcTaskDetails} from "../utils/common.js";
 import AbstractComponent from "./abstract-component.js";
+import AbstractSmartComponent from "./abstract-smart-component.js";
 
-const createTaskTemplate = (task) => {
-  const {date, time, repeatClass, deadlineClass, description, color, isArchive, isFavorite} = calcTaskDetails(task);
+const createButtonMarkup = (name, isActive = true) => {
+  return (
+    `<button
+      type="button"
+      class="card__btn card__btn--${name} ${isActive ? `` : `card__btn--disabled`}"
+    >
+      ${name}
+    </button>`
+  );
+};
 
-  const archiveButtonInactiveClass = isArchive ? `` : `card__btn--disabled`;
-  const favoriteButtonInactiveClass = isFavorite ? `` : `card__btn--disabled`;
+
+const createTaskTemplate = (task, options = {}) => {
+  const {date, time, repeatClass, deadlineClass, description, color} = calcTaskDetails(task, options);
+
+  const editButton = createButtonMarkup(`edit`);
+  const archiveButton = createButtonMarkup(`archive`, !task.isArchive);
+  const favoritesButton = createButtonMarkup(`favorites`, !task.isFavorite);
 
   return (
     `<article class="card card--${color} ${repeatClass} ${deadlineClass}">
       <div class="card__form">
         <div class="card__inner">
           <div class="card__control">
-            <button type="button" class="card__btn card__btn--edit">
-              edit
-            </button>
-            <button type="button" class="card__btn card__btn--archive ${archiveButtonInactiveClass}">
-              archive
-            </button>
-            <button
-              type="button"
-              class="card__btn card__btn--favorites ${favoriteButtonInactiveClass}"
-            >
-              favorites
-            </button>
+            ${editButton}
+            ${archiveButton}
+            ${favoritesButton}
           </div>
 
           <div class="card__color-bar">
@@ -54,7 +59,7 @@ const createTaskTemplate = (task) => {
   );
 };
 
-class Task extends AbstractComponent {
+class Task extends AbstractSmartComponent {
   constructor(task) {
     super();
     this._task = task;
@@ -66,6 +71,14 @@ class Task extends AbstractComponent {
 
   setEditButtonClickHandler(handler) {
     this.getElement().querySelector(`.card__btn--edit`).addEventListener(`click`, handler);
+  }
+
+  setFavoritesButtonClickHandler(handler) {
+    this.getElement().querySelector(`.card__btn--favorites`).addEventListener(`click`, handler);
+  }
+
+  setArchiveButtonClickHandler(handler) {
+    this.getElement().querySelector(`.card__btn--archive`).addEventListener(`click`, handler);
   }
 }
 
