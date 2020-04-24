@@ -1,6 +1,5 @@
 import {calcTaskDetails} from "../utils/common.js";
 import AbstractComponent from "./abstract-component.js";
-import AbstractSmartComponent from "./abstract-smart-component.js";
 
 const createButtonMarkup = (name, isActive = true) => {
   return (
@@ -59,7 +58,7 @@ const createTaskTemplate = (task, options = {}) => {
   );
 };
 
-class Task extends AbstractSmartComponent {
+class Task extends AbstractComponent {
   constructor(task) {
     super();
     this._task = task;
