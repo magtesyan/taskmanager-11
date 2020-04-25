@@ -68,6 +68,7 @@ class BoardController {
 
     const taskListElement = this._tasksComponent.getElement();
     const newTasks = renderTasks(taskListElement, this._tasks.slice(0, this._showingTasksCount), this._onDataChange, this._onViewChange);
+
     this._showedTaskControllers = this._showedTaskControllers.concat(newTasks);
 
     this._renderLoadMoreButton();
