@@ -30,20 +30,21 @@ const formatTime = (date) => {
   return `${hours}:${minutes}`;
 };
 
-const calcTaskDetails = (task) => {
-  const {dueDate, repeatingDays, description, color, isArchive, isFavorite} = task;
-
+const calcTaskDetails = (task, options) => {
+  const {dueDate, description, color, isArchive, isFavorite, repeatingDays} = task;
+  const {isDateShowing, activeRepeatingDays} = options;
   const isExpired = dueDate instanceof Date && dueDate < Date.now();
-  const isDateShowing = !!dueDate;
 
-  const date = isDateShowing ? `${dueDate.getDate()} ${MONTH_NAMES[dueDate.getMonth()]}` : ``;
-  const time = isDateShowing ? formatTime(dueDate) : ``;
+  const dateShowing = isDateShowing ? isDateShowing : !!dueDate;
+  const date = (dateShowing && dueDate) ? `${dueDate.getDate()} ${MONTH_NAMES[dueDate.getMonth()]}` : ``;
+  const time = (dateShowing && dueDate) ? formatTime(dueDate) : ``;
 
-  const isRepeatingTask = Object.values(repeatingDays).some(Boolean);
+  const repeatDays = activeRepeatingDays ? activeRepeatingDays : repeatingDays;
+  const isRepeatingTask = Object.values(repeatDays).some(Boolean);
   const repeatClass = isRepeatingTask ? `card--repeat` : ``;
   const deadlineClass = isExpired ? `card--deadline` : ``;
 
-  return {date, time, repeatClass, deadlineClass, isDateShowing, isRepeatingTask, description, color, isArchive, isFavorite, repeatingDays};
+  return {date, time, repeatClass, deadlineClass, isDateShowing, isRepeatingTask, description, color, isArchive, isFavorite, activeRepeatingDays};
 };
 
 export {getRandomArrayItem, getRandomDate, formatTime, calcTaskDetails};
