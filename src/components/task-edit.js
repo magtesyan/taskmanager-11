@@ -187,9 +187,9 @@ class TaskEdit extends AbstractSmartComponent {
     if (this._isDateShowing) {
       const dateElement = this.getElement().querySelector(`.card__date`);
       this._flatpickr = flatpickr(dateElement, {
-        altInput: true,
         allowInput: true,
         defaultDate: this._task.dueDate || `today`,
+        dateFormat: `d F H:i`
       });
     }
   }
