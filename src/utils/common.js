@@ -1,4 +1,5 @@
-import {WEEKDAYS_COUNT, MONTH_NAMES} from "../const.js";
+import {WEEKDAYS_COUNT} from "../const.js";
+import moment from "moment";
 
 const getRandomIntegerNumber = (min, max) => {
   return min + Math.floor(Math.random() * (max - min + 1));
@@ -19,15 +20,12 @@ const getRandomDate = () => {
   return targetDate;
 };
 
-const castTimeFormat = (value) => {
-  return value < 10 ? `0${value}` : String(value);
+const formatTime = (date) => {
+  return moment(date).format(`HH:mm`);
 };
 
-const formatTime = (date) => {
-  const hours = castTimeFormat(date.getHours() % 12);
-  const minutes = castTimeFormat(date.getMinutes());
-
-  return `${hours}:${minutes}`;
+const formatDate = (date) => {
+  return moment(date).format(`DD MMMM`);
 };
 
 const calcTaskDetails = (task, options) => {
@@ -36,7 +34,7 @@ const calcTaskDetails = (task, options) => {
   const isExpired = dueDate instanceof Date && dueDate < Date.now();
 
   const dateShowing = isDateShowing ? isDateShowing : !!dueDate;
-  const date = (dateShowing && dueDate) ? `${dueDate.getDate()} ${MONTH_NAMES[dueDate.getMonth()]}` : ``;
+  const date = (dateShowing && dueDate) ? formatDate(dueDate) : ``;
   const time = (dateShowing && dueDate) ? formatTime(dueDate) : ``;
 
   const repeatDays = activeRepeatingDays ? activeRepeatingDays : repeatingDays;
