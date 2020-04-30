@@ -29,20 +29,32 @@ const formatDate = (date) => {
 };
 
 const calcTaskDetails = (task, options) => {
-  const {dueDate, description, color, isArchive, isFavorite, repeatingDays} = task;
-  const {isDateShowing, activeRepeatingDays} = options;
-  const isExpired = dueDate instanceof Date && dueDate < Date.now();
+  const {dueDate, description, color, isArchive, isFavorite} = task;
+  const {isDateShowing, activeRepeatingDays, currentDescription, isRepeatingTask} = options;
+  const isExpired = dueDate instanceof Date && isOverdueDate(dueDate, new Date());
 
   const dateShowing = isDateShowing ? isDateShowing : !!dueDate;
   const date = (dateShowing && dueDate) ? formatDate(dueDate) : ``;
   const time = (dateShowing && dueDate) ? formatTime(dueDate) : ``;
 
-  const repeatDays = activeRepeatingDays ? activeRepeatingDays : repeatingDays;
-  const isRepeatingTask = Object.values(repeatDays).some(Boolean);
   const repeatClass = isRepeatingTask ? `card--repeat` : ``;
   const deadlineClass = isExpired ? `card--deadline` : ``;
 
-  return {date, time, repeatClass, deadlineClass, isDateShowing, isRepeatingTask, description, color, isArchive, isFavorite, activeRepeatingDays};
+  return {date, time, repeatClass, deadlineClass, isDateShowing, isRepeatingTask, description, color, isArchive, isFavorite, activeRepeatingDays, currentDescription};
 };
 
-export {getRandomArrayItem, getRandomDate, formatTime, calcTaskDetails};
+const isRepeating = (repeatingDays) => {
+  return Object.values(repeatingDays).some(Boolean);
+};
+
+const isOverdueDate = (dueDate, date) => {
+  return dueDate < date && !isOneDay(date, dueDate);
+};
+
+const isOneDay = (dateA, dateB) => {
+  const a = moment(dateA);
+  const b = moment(dateB);
+  return a.diff(b, `days`) === 0 && dateA.getDate() === dateB.getDate();
+};
+
+export {getRandomArrayItem, getRandomDate, formatTime, calcTaskDetails, isRepeating, isOverdueDate, isOneDay};
