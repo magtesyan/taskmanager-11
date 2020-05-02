@@ -1,5 +1,6 @@
 import {calcTaskDetails} from "../utils/common.js";
 import AbstractComponent from "./abstract-component.js";
+import {encode} from "he";
 
 const createButtonMarkup = (name, isActive = true) => {
   return (
@@ -14,7 +15,8 @@ const createButtonMarkup = (name, isActive = true) => {
 
 
 const createTaskTemplate = (task, options = {}) => {
-  const {date, time, repeatClass, deadlineClass, description, color} = calcTaskDetails(task, options);
+  const {date, time, repeatClass, deadlineClass, color, description: notSanitizedDescription} = calcTaskDetails(task, options);
+  const description = encode(notSanitizedDescription);
 
   const editButton = createButtonMarkup(`edit`);
   const archiveButton = createButtonMarkup(`archive`, !task.isArchive);
