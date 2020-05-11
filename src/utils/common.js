@@ -30,7 +30,7 @@ const formatDate = (date) => {
 
 const calcTaskDetails = (task, options) => {
   const {dueDate, description, color, isArchive, isFavorite} = task;
-  const {isDateShowing, activeRepeatingDays, currentDescription, isRepeatingTask} = options;
+  const {isDateShowing, activeRepeatingDays, currentDescription, isRepeatingTask, externalData} = options;
   const isExpired = dueDate instanceof Date && isOverdueDate(dueDate, new Date());
 
   const dateShowing = isDateShowing ? isDateShowing : !!dueDate;
@@ -40,7 +40,7 @@ const calcTaskDetails = (task, options) => {
   const repeatClass = isRepeatingTask ? `card--repeat` : ``;
   const deadlineClass = isExpired ? `card--deadline` : ``;
 
-  return {date, time, repeatClass, deadlineClass, isDateShowing, isRepeatingTask, description, color, isArchive, isFavorite, activeRepeatingDays, currentDescription};
+  return {date, time, repeatClass, deadlineClass, isDateShowing, isRepeatingTask, description, color, isArchive, isFavorite, activeRepeatingDays, currentDescription, externalData};
 };
 
 const isRepeating = (repeatingDays) => {
